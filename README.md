@@ -37,7 +37,7 @@ When your new project is ready for deployment, add a new Heroku application with
 
 ## Dependencies and Docs
 
-[postgreSQL docs](https://www.postgresql.org/docs/12/index.html)
+[postgreSQL docs](https://www.postgresql.org/docs/12/index.html)<br>
 [React docs](https://reactjs.org/docs/getting-started.html)
 
 1. cors - middleware for enabling cross origin resource sharing [cors docs](https://www.npmjs.com/package/cors)
