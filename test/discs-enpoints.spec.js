@@ -5,7 +5,7 @@ const { makeTestFixtures } = require('./test-helpers')
 const app = require('../src/app')
 const supertest = require('supertest')
 
-describe.only('Discs Endpoints', () => {
+describe('Discs Endpoints', () => {
 
   let db
   const { testDiscs } = makeTestFixtures()
