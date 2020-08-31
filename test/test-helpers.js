@@ -34,9 +34,60 @@ function makeUsersArray() {
   ]
 }
 
+function makeDiscsArray() {
+  return [
+    {
+      id: 1,
+      name: 'test-disc-1',
+      brand: 'discs_inc',
+      speed: 12,
+      glide: 3,
+      turn: -1,
+      fade: 3
+    },
+    {
+      id: 2,
+      name: 'test-disc-2',
+      brand: 'discs_inc',
+      speed: 10,
+      glide: 4,
+      turn: -2,
+      fade: 2
+    },
+    {
+      id: 3,
+      name: 'test-disc-3',
+      brand: 'frisbee_co',
+      speed: 7,
+      glide: 5,
+      turn: -4,
+      fade: 2
+    },
+    {
+      id: 4,
+      name: 'test-disc-4',
+      brand: 'discs_inc',
+      speed: 14,
+      glide: 3,
+      turn: 1.5,
+      fade: 5
+    },
+    {
+      id: 5,
+      name: 'test-disc-5',
+      brand: 'frisbee_co',
+      speed: 3,
+      glide: 4,
+      turn: -0.5,
+      fade: 1
+    },
+  ]
+}
+
 function makeTestFixtures() {
   const testUsers = makeUsersArray()
-  return { testUsers }
+  const testDiscs = makeDiscsArray()
+  return { testUsers, testDiscs }
 }
 
 function seedUsers(db, users) {
@@ -51,9 +102,14 @@ function seedUsers(db, users) {
   )
 }
 
+function seedDiscs(db, discs) {
+  return db('discs').insert(discs)
+}
+
 function cleanTables(db) {
   return db.raw(
     `TRUNCATE
+    discs,
     users,
     user_bag_discs,
     scorecards
@@ -64,5 +120,6 @@ function cleanTables(db) {
 module.exports = {
   makeTestFixtures,
   cleanTables,
+  seedDiscs,
   seedUsers,
 }
