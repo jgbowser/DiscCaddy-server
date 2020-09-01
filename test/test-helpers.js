@@ -154,10 +154,10 @@ function makeExpectedUserBag(baggedDiscs, discs, user_id) {
         user_id: disc.user_id,
         name: discs[disc.disc_id - 1].name,
         brand: discs[disc.disc_id - 1].brand,
-        speed: Number(discs[disc.disc_id - 1].speed),
-        glide: Number(discs[disc.disc_id - 1].glide),
-        turn: Number(discs[disc.disc_id - 1].turn),
-        fade: Number(discs[disc.disc_id - 1].fade),
+        speed: discs[disc.disc_id - 1].speed,
+        glide: discs[disc.disc_id - 1].glide,
+        turn: discs[disc.disc_id - 1].turn,
+        fade: discs[disc.disc_id - 1].fade,
       }
     )
   )
