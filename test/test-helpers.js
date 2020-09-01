@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -149,17 +150,17 @@ function makeTestFixtures() {
 function makeExpectedUserBag(baggedDiscs, discs, user_id) {
   const userDiscs = baggedDiscs.filter(disc => disc.user_id === user_id)
   const joinedList = userDiscs.map(disc => (
-      {
-        id: disc.id,
-        user_id: disc.user_id,
-        name: discs[disc.disc_id - 1].name,
-        brand: discs[disc.disc_id - 1].brand,
-        speed: discs[disc.disc_id - 1].speed,
-        glide: discs[disc.disc_id - 1].glide,
-        turn: discs[disc.disc_id - 1].turn,
-        fade: discs[disc.disc_id - 1].fade,
-      }
-    )
+    {
+      id: disc.id,
+      user_id: disc.user_id,
+      name: discs[disc.disc_id - 1].name,
+      brand: discs[disc.disc_id - 1].brand,
+      speed: discs[disc.disc_id - 1].speed,
+      glide: discs[disc.disc_id - 1].glide,
+      turn: discs[disc.disc_id - 1].turn,
+      fade: discs[disc.disc_id - 1].fade,
+    }
+  )
   )
   return joinedList
 }
@@ -171,17 +172,17 @@ function seedUsers(db, users) {
   }))
   return db('users').insert(preppedUsers)
     .then(() => db.raw(`SELECT setval('users_id_seq', ?)`,
-    [users[users.length-1].id]
+      [users[users.length-1].id]
     )
-  )
+    )
 }
 
 function seedDiscs(db, discs) {
   return db('discs').insert(discs)
     .then(() => db.raw(`SELECT setval('discs_id_seq', ?)`,
-    [discs[discs.length - 1].id]
+      [discs[discs.length - 1].id]
     )
-  )
+    )
 }
 
 function seedBagDiscs(db, discs, users, bagDiscs) {
@@ -191,7 +192,7 @@ function seedBagDiscs(db, discs, users, bagDiscs) {
     await trx.into('user_bag_discs').insert(bagDiscs)
     await trx.raw(`
       SELECT setval('user_bag_discs_id_seq', ?)`,
-      [bagDiscs[bagDiscs.length -1].id]
+    [bagDiscs[bagDiscs.length -1].id]
     )
   })
 }
