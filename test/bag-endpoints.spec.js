@@ -3,7 +3,7 @@ const app = require('../src/app')
 const helpers = require('./test-helpers')
 const supertest = require('supertest')
 
-describe.only('Bags Endpoints', () => {
+describe('Bags Endpoints', () => {
   let db
 
   const { testUsers, testDiscs, testBagDiscs } = helpers.makeTestFixtures()
