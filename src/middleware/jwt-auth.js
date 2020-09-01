@@ -1,4 +1,5 @@
 const AuthService = require('../auth/auth-services')
+const { subscribe } = require('../app')
 
 function requireAuth(req, res, next) {
   const authToken = req.get('authorization') || ''
