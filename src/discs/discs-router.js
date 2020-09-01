@@ -6,6 +6,8 @@ const { requireAuth } = require('../middleware/jwt-auth')
 
 const discsRouter = express.Router()
 
+// Get all discs in database
+
 discsRouter
   .route('/')
   .all(requireAuth)

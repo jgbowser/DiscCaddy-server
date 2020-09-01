@@ -3,7 +3,7 @@ const app = require('../src/app')
 const helpers = require('./test-helpers')
 const supertest = require('supertest')
 
-describe.skip('Bags Endpoints', () => {
+describe.only('Bags Endpoints', () => {
   let db
 
   const { testUsers, testDiscs, testBagDiscs } = helpers.makeTestFixtures()
@@ -23,12 +23,14 @@ describe.skip('Bags Endpoints', () => {
 
   afterEach('cleanup', () => helpers.cleanTables(db))
 
-  describe('GET /api/bags/:user_id', () => {
+  describe('GET /api/bags', () => {
     context('given no data', () => {
+      beforeEach('insert users', () => helpers.seedUsers(db, testUsers))
 
       it('responds 200 and empty list', () => {
         return supertest(app)
-          .get(`/api/bags/${testUser.id}`)
+          .get('/api/bags')
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, [])
       })
     })
@@ -36,21 +38,13 @@ describe.skip('Bags Endpoints', () => {
       beforeEach('Seed tables', () => {
         return helpers.seedBagDiscs(db, testDiscs, testUsers, testBagDiscs)
       })
-      it.skip('responds 404 given an invalid user_id', () => {
-        const invalidId = 123
-
-        return supertest(app)
-          .get(`/api/bags/${invalidId}`)
-          .expect(404, {
-            error: { message: 'User does not exist' }
-          })
-      })
       it('responds 200 and list of discs for valid user', () => {
         const validUser = testUser
         const expectedDiscs = testBagDiscs.filter(disc => disc.user_id === validUser.id)
 
         return supertest(app)
-          .get(`/api/bags/${validUser.id}`)
+          .get('/api/bags')
+          .set('Authorization', helpers.makeAuthHeader(validUser))
           .expect(200, expectedDiscs)
       })
     })
