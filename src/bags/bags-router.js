@@ -9,11 +9,11 @@ bagsRouter
   .get((req, res, next) => {
     const user_id = req.params.user_id
     
-    const user = BagsServices.checkUserExists(req.app.get('db'), user_id)
-    
+    let user = BagsServices.findUser(req.app.get('db'), user_id)
+    console.log(user)
     if(!user){
       return res.status(404).json({
-        error: { message: 'User does not exist '}
+        error: { message: 'User does not exist' }
       })
     }
 

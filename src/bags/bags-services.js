@@ -6,7 +6,7 @@ const BagsServices = {
       .where({ user_id })
   },
 
-  checkUserExists(db, id) {
+  findUser(db, id) {
     return db
       .from('users')
       .where({ id })
