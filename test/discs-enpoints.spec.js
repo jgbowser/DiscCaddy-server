@@ -5,10 +5,10 @@ const { makeTestFixtures } = require('./test-helpers')
 const app = require('../src/app')
 const supertest = require('supertest')
 
-describe('Discs Endpoints', () => {
+describe.only('Discs Endpoints', () => {
 
   let db
-  const { testDiscs } = makeTestFixtures()
+  const { testDiscs, testUsers } = makeTestFixtures()
 
   before('make knex instance', () => {
     db = knex({
@@ -26,19 +26,27 @@ describe('Discs Endpoints', () => {
 
   describe('GET /api/discs', () => {
     context('Given no data', () => {
+      beforeEach('insert users', () => {
+        helpers.seedUsers(db, testUsers)
+      })
       it('responds 200 and empty array', () => {
         return supertest(app)
           .get('/api/discs')
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, [])
       })
     })
     context('Given data in discs table', () => {
-      beforeEach('insert test discs', () => 
+      beforeEach('insert test discs', () => {
         helpers.seedDiscs(db, testDiscs)
-      )
+      })
+      beforeEach('insert users', () => 
+        helpers.seedUsers(db, testUsers))
+        
       it('responds 200 with list of discs', () => {
         return supertest(app)
           .get('/api/discs')
+          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, testDiscs)
       })
     })

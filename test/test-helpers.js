@@ -84,10 +84,66 @@ function makeDiscsArray() {
   ]
 }
 
+function makeBaggedDiscsArray(users, discs) {
+  return [
+    {
+      id: 1,
+      user_id: users[0].id,
+      disc_id: discs[0].id
+    },
+    {
+      id: 2,
+      user_id: users[0].id,
+      disc_id: discs[1].id
+    },
+    {
+      id: 3,
+      user_id: users[1].id,
+      disc_id: discs[0].id
+    },
+    {
+      id: 4,
+      user_id: users[2].id,
+      disc_id: discs[2].id
+    },
+    {
+      id: 5,
+      user_id: users[2].id,
+      disc_id: discs[3].id
+    },
+    {
+      id: 6,
+      user_id: users[1].id,
+      disc_id: discs[4].id
+    },
+    {
+      id: 7,
+      user_id: users[1].id,
+      disc_id: discs[2].id
+    },
+    {
+      id: 8,
+      user_id: users[0].id,
+      disc_id: discs[2].id
+    },
+    {
+      id: 9,
+      user_id: users[0].id,
+      disc_id: discs[3].id
+    },
+    {
+      id: 10,
+      user_id: users[0].id,
+      disc_id: discs[4].id
+    },
+  ]
+}
+
 function makeTestFixtures() {
   const testUsers = makeUsersArray()
   const testDiscs = makeDiscsArray()
-  return { testUsers, testDiscs }
+  const testBagDiscs = makeBaggedDiscsArray(testUsers, testDiscs)
+  return { testUsers, testDiscs, testBagDiscs }
 }
 
 function seedUsers(db, users) {
@@ -104,6 +160,22 @@ function seedUsers(db, users) {
 
 function seedDiscs(db, discs) {
   return db('discs').insert(discs)
+    .then(() => db.raw(`SELECT setval('discs_id_seq', ?)`,
+    [discs[discs.length - 1].id]
+    )
+  )
+}
+
+function seedBagDiscs(db, discs, users, bagDiscs) {
+  return db.transaction(async trx => {
+    await seedDiscs(trx, discs)
+    await seedUsers(trx, users)
+    await trx.into('user_bag_discs').insert(bagDiscs)
+    await trx.raw(`
+      SELECT setval('user_bag_discs_id_seq', ?)`,
+      [bagDiscs[bagDiscs.length -1].id]
+    )
+  })
 }
 
 function cleanTables(db) {
@@ -117,9 +189,19 @@ function cleanTables(db) {
   )
 }
 
+function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
+  const token = jwt.sign({ user_id: user.id }, secret, {
+    subject: user.username,
+    algorithm: 'HS256',
+  })
+  return `Bearer ${token}`
+}
+
 module.exports = {
   makeTestFixtures,
   cleanTables,
+  makeAuthHeader,
   seedDiscs,
   seedUsers,
+  seedBagDiscs,
 }
