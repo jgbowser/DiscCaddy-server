@@ -14,7 +14,9 @@ bagsRouter
     const user_id = req.user.id
     BagsServices.getUserDiscs(req.app.get('db'), user_id)
       .then(discs => {
-        res.status(200).json(discs)
+        const serializedDiscs = discs.map(disc => 
+          BagsServices.serializeBagDisc(disc))
+        res.status(200).json(serializedDiscs)
       })
       .catch(next)
   })

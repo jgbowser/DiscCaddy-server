@@ -146,6 +146,24 @@ function makeTestFixtures() {
   return { testUsers, testDiscs, testBagDiscs }
 }
 
+function makeExpectedUserBag(baggedDiscs, discs, user_id) {
+  const userDiscs = baggedDiscs.filter(disc => disc.user_id === user_id)
+  const joinedList = userDiscs.map(disc => (
+      {
+        id: disc.id,
+        user_id: disc.user_id,
+        name: discs[disc.disc_id - 1].name,
+        brand: discs[disc.disc_id - 1].brand,
+        speed: Number(discs[disc.disc_id - 1].speed),
+        glide: Number(discs[disc.disc_id - 1].glide),
+        turn: Number(discs[disc.disc_id - 1].turn),
+        fade: Number(discs[disc.disc_id - 1].fade),
+      }
+    )
+  )
+  return joinedList
+}
+
 function seedUsers(db, users) {
   const preppedUsers = users.map(user => ({
     ...user,
@@ -201,6 +219,7 @@ module.exports = {
   makeTestFixtures,
   cleanTables,
   makeAuthHeader,
+  makeExpectedUserBag,
   seedDiscs,
   seedUsers,
   seedBagDiscs,

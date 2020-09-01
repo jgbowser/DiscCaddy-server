@@ -3,7 +3,7 @@ const app = require('../src/app')
 const helpers = require('./test-helpers')
 const supertest = require('supertest')
 
-describe('Bags Endpoints', () => {
+describe.only('Bags Endpoints', () => {
   let db
 
   const { testUsers, testDiscs, testBagDiscs } = helpers.makeTestFixtures()
@@ -40,13 +40,16 @@ describe('Bags Endpoints', () => {
       })
       it('responds 200 and list of discs for valid user', () => {
         const validUser = testUser
-        const expectedDiscs = testBagDiscs.filter(disc => disc.user_id === validUser.id)
-
+        const expectedDiscs = helpers.makeExpectedUserBag(testBagDiscs, testDiscs, validUser.id)
+        
         return supertest(app)
           .get('/api/bags')
           .set('Authorization', helpers.makeAuthHeader(validUser))
           .expect(200, expectedDiscs)
       })
     })
+  })
+  describe('POST /api/bags', () => {
+
   })
 })

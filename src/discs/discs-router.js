@@ -14,9 +14,9 @@ discsRouter
   .get((req, res, next) => {
     DiscsService.getAllDiscs(req.app.get('db'))
       .then(discs => {
-        const serializeDiscs = discs.map(disc => 
+        const serializedDiscs = discs.map(disc => 
           DiscsService.serializeDisc(disc))
-        res.status(200).json(serializeDiscs)
+        res.status(200).json(serializedDiscs)
       })
       .catch(next)
   })
