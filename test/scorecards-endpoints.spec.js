@@ -4,7 +4,7 @@ const helpers = require('./test-helpers')
 const supertest = require('supertest')
 const { expect } = require('chai')
 
-describe.only('Scorecards Endpoints', () => {
+describe('Scorecards Endpoints', () => {
   let db
 
   const{ testUsers, testScorecards } = helpers.makeTestFixtures()
