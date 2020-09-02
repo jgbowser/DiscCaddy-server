@@ -39,7 +39,6 @@ bagsRouter
     BagsServices.getById(req.app.get('db'), disc_id)
       .then(disc => {
         if(!disc){
-          console.log(disc)
           return res.status(400).json({
             error: { message: 'Disc does not exist' }
           })

@@ -50,7 +50,7 @@ describe('Bags Endpoints', () => {
       })
     })
   })
-  describe.only('POST /api/bags', () => {
+  describe('POST /api/bags', () => {
     beforeEach('seed data', () => 
       helpers.seedBagDiscs(db, testDiscs, testUsers, testBagDiscs)
     )
