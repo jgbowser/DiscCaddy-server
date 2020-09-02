@@ -15,9 +15,29 @@ const BagsServices = {
       .join('discs', 'user_bag_discs.disc_id', 'discs.id')
   },
 
-  getById(db, disc_id) {
+  getUserDiscById(db, id) {
     return db
-  }
+      .from('user_bag_discs')
+      .select(
+        'user_bag_discs.id',
+        'user_bag_discs.user_id',
+        'discs.name',
+        'discs.brand',
+        'discs.speed',
+        'discs.glide',
+        'discs.turn',
+        'discs.fade'
+      )
+      .where({'user_bag_discs.id': id})
+      .join('discs', 'user_bag_discs.disc_id', 'discs.id')
+      .first()
+  },
+
+  getById(db, id) {
+    return db('discs')
+      .where({ id })
+      .first()
+  },
 
   serializeBagDisc(disc) {
     return {
@@ -38,9 +58,8 @@ const BagsServices = {
       .into('user_bag_discs')
       .returning('*')
       .then(([disc]) => disc)
-      .then(disc => BagsServices.get)
-      
-  }
+      .then(disc => BagsServices.getUserDiscById(db, disc.id))    
+  },
 }
 
 module.exports = BagsServices
