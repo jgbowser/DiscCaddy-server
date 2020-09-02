@@ -18,6 +18,7 @@ scorecardsRouter
         )
         res.status(200).json(serializedScorecards)
       })
+      .catch(next)
   })
   .post(jsonBodyParser, (req, res, next) => {
     const user_id = req.user.id
@@ -54,6 +55,7 @@ scorecardsRouter
           .location(path.posix.join(req.originalUrl + `/${scorecard.id}`))
           .json(ScorecardsService.serializeScorecard(scorecard))
       })
+      .catch(next)
   })
 
 module.exports = scorecardsRouter
