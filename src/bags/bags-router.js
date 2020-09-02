@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-const BagsServices = require('./bags-services')
+const BagsService = require('./bags-services')
 const { requireAuth } = require('../middleware/jwt-auth')
 
 const bagsRouter = express.Router()
@@ -11,10 +11,10 @@ bagsRouter
   .all(requireAuth)
   .get((req, res, next) => {
     const user_id = req.user.id
-    BagsServices.getUserDiscs(req.app.get('db'), user_id)
+    BagsService.getUserDiscs(req.app.get('db'), user_id)
       .then(discs => {
         const serializedDiscs = discs.map(disc => 
-          BagsServices.serializeBagDisc(disc))
+          BagsService.serializeBagDisc(disc))
         res.status(200).json(serializedDiscs)
       })
       .catch(next)
@@ -24,6 +24,7 @@ bagsRouter
     const newDisc = { disc_id }
     
     for(const [key, value] of Object.entries(newDisc)) {
+      // eslint-disable-next-line eqeqeq
       if(value == null){ 
         return res.status(400).json({
           error: { message: `Missing ${key} in request body` }
@@ -36,7 +37,7 @@ bagsRouter
       }
     }
 
-    BagsServices.getById(req.app.get('db'), disc_id)
+    BagsService.getById(req.app.get('db'), disc_id)
       .then(disc => {
         if(!disc){
           return res.status(400).json({
@@ -45,12 +46,12 @@ bagsRouter
         }
         newDisc.user_id = req.user.id
 
-        return BagsServices.insertBagDisc(req.app.get('db'), newDisc)
+        return BagsService.insertBagDisc(req.app.get('db'), newDisc)
           .then(disc =>{
             res
               .status(201)
               .location(path.posix.join(req.originalUrl, `/${disc.id}`))
-              .json(BagsServices.serializeBagDisc(disc))
+              .json(BagsService.serializeBagDisc(disc))
           })
       })
       .catch(next)

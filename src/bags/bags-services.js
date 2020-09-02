@@ -1,4 +1,4 @@
-const BagsServices = {
+const BagsService = {
   getUserDiscs(db, user_id) {
     return db
       .from('user_bag_discs')
@@ -58,8 +58,8 @@ const BagsServices = {
       .into('user_bag_discs')
       .returning('*')
       .then(([disc]) => disc)
-      .then(disc => BagsServices.getUserDiscById(db, disc.id))    
+      .then(disc => BagsService.getUserDiscById(db, disc.id))    
   },
 }
 
-module.exports = BagsServices
+module.exports = BagsService

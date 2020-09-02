@@ -140,11 +140,132 @@ function makeBaggedDiscsArray(users, discs) {
   ]
 }
 
+function makeScorecardsArray(users) {
+  return [
+    {
+      id: 1,
+      user_id: users[0].id,
+      date_created: '2020-09-02T16:17:34.442Z', 
+      hole_1: 3,
+      hole_2: 3,
+      hole_3: 4,
+      hole_4: 2,
+      hole_5: 2,
+      hole_6: 3,
+      hole_7: 3,
+      hole_8: 3,
+      hole_9: 3,
+      hole_10: 3,
+      hole_11: 2,
+      hole_12: 4,
+      hole_13: 4,
+      hole_14: 3,
+      hole_15: 3,
+      hole_16: 3,
+      hole_17: 3,
+      hole_18: 5
+    },
+    {
+      id: 2,
+      user_id: users[1].id,
+      date_created: '2020-09-02T16:17:34.442Z', 
+      hole_1: 3,
+      hole_2: 3,
+      hole_3: 4,
+      hole_4: 2,
+      hole_5: 2,
+      hole_6: 3,
+      hole_7: 3,
+      hole_8: 3,
+      hole_9: 3,
+      hole_10: 3,
+      hole_11: 2,
+      hole_12: 4,
+      hole_13: 4,
+      hole_14: 3,
+      hole_15: 3,
+      hole_16: 3,
+      hole_17: 3,
+      hole_18: 5
+    },
+    {
+      id: 3,
+      user_id: users[2].id,
+      date_created: '2020-09-02T16:17:34.442Z', 
+      hole_1: 3,
+      hole_2: 3,
+      hole_3: 4,
+      hole_4: 2,
+      hole_5: 2,
+      hole_6: 3,
+      hole_7: 3,
+      hole_8: 3,
+      hole_9: 3,
+      hole_10: 3,
+      hole_11: 2,
+      hole_12: 4,
+      hole_13: 4,
+      hole_14: 3,
+      hole_15: 3,
+      hole_16: 3,
+      hole_17: 3,
+      hole_18: 5
+    },
+    {
+      id: 4,
+      user_id: users[0].id,
+      date_created: '2020-08-29T16:17:34.442Z', 
+      hole_1: 3,
+      hole_2: 3,
+      hole_3: 4,
+      hole_4: 2,
+      hole_5: 2,
+      hole_6: 3,
+      hole_7: 3,
+      hole_8: 3,
+      hole_9: 3,
+      hole_10: 3,
+      hole_11: 2,
+      hole_12: 4,
+      hole_13: 4,
+      hole_14: 3,
+      hole_15: 3,
+      hole_16: 3,
+      hole_17: 3,
+      hole_18: 5
+    },
+    {
+      id: 5,
+      user_id: users[1].id,
+      date_created: '2020-09-02T16:17:34.442Z', 
+      hole_1: 3,
+      hole_2: 3,
+      hole_3: 4,
+      hole_4: 2,
+      hole_5: 2,
+      hole_6: 3,
+      hole_7: 3,
+      hole_8: 3,
+      hole_9: 3,
+      hole_10: 3,
+      hole_11: 2,
+      hole_12: 4,
+      hole_13: 4,
+      hole_14: 3,
+      hole_15: 3,
+      hole_16: 3,
+      hole_17: 3,
+      hole_18: 5
+    },
+  ]
+}
+
 function makeTestFixtures() {
   const testUsers = makeUsersArray()
   const testDiscs = makeDiscsArray()
   const testBagDiscs = makeBaggedDiscsArray(testUsers, testDiscs)
-  return { testUsers, testDiscs, testBagDiscs }
+  const testScorecards = makeScorecardsArray(testUsers)
+  return { testUsers, testDiscs, testBagDiscs, testScorecards }
 }
 
 function makeExpectedUserBag(baggedDiscs, discs, user_id) {
@@ -197,6 +318,17 @@ function seedBagDiscs(db, discs, users, bagDiscs) {
   })
 }
 
+function seedScorecards(db, users, scorecards) {
+  return db.transaction(async trx => {
+    await seedUsers(trx, users)
+    await trx.into('scorecards').insert(scorecards)
+    await trx.raw(
+      `SELECT setval('scorecards_id_seq', ?)`,
+      [scorecards[scorecards.length - 1].id]
+    )
+  })
+}
+
 function cleanTables(db) {
   return db.raw(
     `TRUNCATE
@@ -224,4 +356,5 @@ module.exports = {
   seedDiscs,
   seedUsers,
   seedBagDiscs,
+  seedScorecards
 }
