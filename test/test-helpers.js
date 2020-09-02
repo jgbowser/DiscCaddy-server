@@ -286,6 +286,10 @@ function makeExpectedUserBag(baggedDiscs, discs, user_id) {
   return joinedList
 }
 
+function makeExpectedScorecards(scorecards, user_id) {
+  return scorecards.filter(card => card.user_id === user_id)
+}
+
 function seedUsers(db, users) {
   const preppedUsers = users.map(user => ({
     ...user,
@@ -353,6 +357,7 @@ module.exports = {
   cleanTables,
   makeAuthHeader,
   makeExpectedUserBag,
+  makeExpectedScorecards,
   seedDiscs,
   seedUsers,
   seedBagDiscs,

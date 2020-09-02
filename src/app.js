@@ -9,6 +9,7 @@ const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
 const discsRouter = require('./discs/discs-router')
 const bagsRouter = require('./bags/bags-router')
+const scorecardsRouter = require('./scorecards/scorecards-router')
 
 const app = express()
 
@@ -29,6 +30,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/discs', discsRouter)
 app.use('/api/bags', bagsRouter)
+app.use('/api/scorecards', scorecardsRouter)
 
 
 // Error handling //
