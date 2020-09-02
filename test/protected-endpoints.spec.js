@@ -36,6 +36,11 @@ describe('Protected Endpoints', () => {
       path: '/api/bags',
       method: supertest(app).get
     },
+    {
+      name: 'POST /api/bags',
+      path: '/api/bags',
+      method: supertest(app).post
+    }
   ]
 
   protectedEndpoints.forEach(endpoint => {

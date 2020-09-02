@@ -49,7 +49,31 @@ describe('Bags Endpoints', () => {
       })
     })
   })
-  describe('POST /api/bags', () => {
+  describe.only('POST /api/bags', () => {
+    beforeEach('seed data', () => 
+      helpers.seedBagDiscs(db, testDiscs, testUsers, testBagDiscs)
+    )
+    const testUser = testUsers[0]
 
+    it('responds 400 required error when missing disc_id in request body', () => {
+      return supertest(app)
+        .post('/api/bags')
+        .set('Authorization', helpers.makeAuthHeader(testUser))
+        .expect(400, {
+          error: { message: 'Missing disc_id in request body' }
+        })
+    })
+    it('responds 400 "Invalid disc_id" when invalid disc_id in request body', () => {
+      const invalidRequest = {
+        disc_id: 'invalid'
+      }
+      return supertest(app)
+        .post('/api/bags')
+        .set('Authorization', helpers.makeAuthHeader(testUser))
+        .send(invalidRequest)
+        .expect(400, {
+          error: { message: 'Invalid disc_id'}
+        })
+    })
   })
 })

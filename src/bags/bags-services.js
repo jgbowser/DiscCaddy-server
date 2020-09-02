@@ -15,6 +15,10 @@ const BagsServices = {
       .join('discs', 'user_bag_discs.disc_id', 'discs.id')
   },
 
+  getById(db, disc_id) {
+    return db
+  }
+
   serializeBagDisc(disc) {
     return {
       id: disc.id,
@@ -27,6 +31,16 @@ const BagsServices = {
       fade: Number(disc.fade)
     }
   },
+
+  insertBagDisc(db, newDisc) {
+    return db
+      .insert(newDisc)
+      .into('user_bag_discs')
+      .returning('*')
+      .then(([disc]) => disc)
+      .then(disc => BagsServices.get)
+      
+  }
 }
 
 module.exports = BagsServices

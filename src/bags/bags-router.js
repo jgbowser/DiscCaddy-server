@@ -5,8 +5,6 @@ const { requireAuth } = require('../middleware/jwt-auth')
 const bagsRouter = express.Router()
 const jsonBodyParser = express.json()
 
-//Get all of the signed in user's bagged discs
-
 bagsRouter
   .route('/')
   .all(requireAuth)
@@ -19,6 +17,25 @@ bagsRouter
         res.status(200).json(serializedDiscs)
       })
       .catch(next)
+  })
+  .post(jsonBodyParser, (req, res, next) => {
+    const { disc_id } = req.body
+    const newDisc = { disc_id }
+    
+    for(const [key, value] of Object.entries(newDisc)) {
+      if(value == null) 
+        return res.status(400).json({
+          error: { message: `Missing ${key} in request body` }
+        })
+      if(typeof value !== 'number')
+        return res.status(400).json({
+          error: { message: 'Invalid disc_id' }
+        })
+    }
+
+    newDisc.user_id = req.user.id
+    
+    res.send('ok')
   })
 
 //Add discs to users bag by providing disc_id and user_id
