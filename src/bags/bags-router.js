@@ -25,7 +25,7 @@ bagsRouter
     
     for(const [key, value] of Object.entries(newDisc)) {
       // eslint-disable-next-line eqeqeq
-      if(value == null){ 
+      if(!value){ 
         return res.status(400).json({
           error: { message: `Missing ${key} in request body` }
         })
