@@ -56,3 +56,5 @@ CREATE TABLE scorecards (
   hole_17 INTEGER DEFAULT 0 NOT NULL,
   hole_18 INTEGER DEFAULT 0 NOT NULL
 );
+
+COPY discs FROM '../seeds/discs.csv' WITH DELIMITER ',' CSV;
