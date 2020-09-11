@@ -52,7 +52,7 @@ The bag endpoint accepts GET and POST requests. GET returns the requested user's
 Both methods require authorization in the request header.<br>
 the request header should include:<br>
 { 'Authorization': 'Bearer AUTH-TOKEN-FROM-LOGIN-RESPONSE }<br>
-No body is required for get.<br>
+No body is required for GET.<br>
 A successful GET request returns an array of the user's saved discs. Each saved disc includes:
 1. 'id' - unique integer id for the saved disc
 2. 'user_id' - id of the user, used to return only the user's personal discs.
@@ -63,15 +63,29 @@ A successful GET request returns an array of the user's saved discs. Each saved 
 7. 'turn' - numeric value representing the turn of the disc
 8. 'fade' - numeric value representing the fade of the disc<br>
 
-the POST endpoint requires a request body that should include:
+the POST method requires a request body that should include:
 1. 'disc_id' - the associated unique id of the disc
 A successful POST of a new user saved disc returns the newly created user disc object in the same format as the GET request.
 
 ## '/scorecards'
-The scorecards endpoint accepts GET and POST requests. GET returns the requested user's list of saved scorecards. POST adds a new scorecard to the user's scorecard list.
+The scorecards endpoint accepts GET and POST requests. GET returns the requested user's list of saved scorecards. POST adds a new scorecard to the user's scorecard list.<br>
+Both methods require authorization in the request header.
+the request header should include:<br>
+{ 'Authorization': 'Bearer AUTH-TOKEN-FROM-LOGIN-RESPONSE }<br>
+No body is required for GET.<br>
+A succesful GET request returns an array of the user's saved scorecards. Each saved scorecard includes:
+1. 'id' - unique integer id for each scorecard
+2. 'user_id' - id of the user the scorecard belongs to
+3. 'date_created' - string containing the time the scorecard was POSTed
+4. 'hole_1 ... hole_18' - integer representing the number of strokes for holes 1 - 18.
+
+the POST method requires a request body that should include:
+1. 'hole_1 ... hole_18' - integer representing the users score for each hole.
+_note:_ A partial round may be submitted as all 18 holes with values of 0 in unplayed holes, or only the holes played can be included and the unplayed holes will be inserted as 0 by the API.
 
 
 ## Dependencies and Docs
+Express was used as the framework for handling HTTP requests. PostgreSQL was used to handle the database. Knex.js was used to build SQL queries. the full list of the tech stack used as well as dependencies and their docs can be seen below.<br>
 
 postgreSQL [postgreSQL docs](https://www.postgresql.org/docs/12/index.html)<br>
 Express [express docs](https://expressjs.com/)
