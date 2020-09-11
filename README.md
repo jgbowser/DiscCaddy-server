@@ -2,7 +2,13 @@
 See the API in action at [disccaddy.vercel.app](https://disccaddy.vercel.app)
 
 ## Summary
-
+The DiscCaddy API is built on an Express framework and utilizes a postgreSQL database. The API is built to handle various bits of user data relating to disc golf, specifically user scorecards, user discs, and an extensive collection of the most popular discs available. <br>
+The API has 5 endpoints:
+1. '/api/users' - Endpoint for user registration
+2. '/api/auth/login' - Endpoint for user login authentication
+3. '/api/discs' - Endpoint for requesting the entire list of discs in the DiscCaddy database
+4. '/api/bags' - Endpoint for handling a user's personal disc list
+5. '/api/scorecards' - Endpoint for handling a user's scorecards
 
 ## Dependencies and Docs
 
